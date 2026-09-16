@@ -1,0 +1,14 @@
+{
+ "agent": "baseline-integrity",
+ "generatedAt": "2026-09-16T21:11:44Z",
+ "verdict": "PASS",
+ "checks": {
+  "historyFiles": 67,
+  "historyBytes": 393212,
+  "addedSinceLast": 0,
+  "removedSinceLast": 0,
+  "changedLinesSinceLast": 0,
+  "broadcastsBadNaming": 1
+ },
+ "reason": "baseline intact"
+}
