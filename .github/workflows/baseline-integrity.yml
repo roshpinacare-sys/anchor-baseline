@@ -56,21 +56,21 @@ jobs:
           mkdir -p agent
           cp /tmp/manifest.new agent/manifest.sha256
           cat > agent/status.json <<EOF
-{
- "agent": "baseline-integrity",
- "generatedAt": "$NOW",
- "verdict": "$VERDICT",
- "checks": {
-  "historyFiles": $FILES,
-  "historyBytes": $BYTES,
-  "addedSinceLast": $ADDED,
-  "removedSinceLast": $REMOVED,
-  "changedLinesSinceLast": $CHANGED,
-  "broadcastsBadNaming": $BADNAME
- },
- "reason": "$REASON"
-}
-EOF
+          {
+           "agent": "baseline-integrity",
+           "generatedAt": "$NOW",
+           "verdict": "$VERDICT",
+           "checks": {
+            "historyFiles": $FILES,
+            "historyBytes": $BYTES,
+            "addedSinceLast": $ADDED,
+            "removedSinceLast": $REMOVED,
+            "changedLinesSinceLast": $CHANGED,
+            "broadcastsBadNaming": $BADNAME
+           },
+           "reason": "$REASON"
+          }
+          EOF
           git config user.name "baseline-integrity[bot]"
           git config user.email "baseline-integrity[bot]@users.noreply.github.com"
           git add agent/status.json agent/manifest.sha256
