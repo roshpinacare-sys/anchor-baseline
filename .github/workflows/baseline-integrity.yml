@@ -7,10 +7,7 @@
 name: baseline-integrity
 
 on:
-  schedule:
-    - cron: '13 7 * * *'
   workflow_dispatch:
-
 permissions:
   contents: write
 
