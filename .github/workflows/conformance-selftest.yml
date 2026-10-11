@@ -1,0 +1,53 @@
+# CONFORMANCE-SELFTEST — saos-git-custody-v1 vector suite (this repo's standing duty)
+#
+# ROLE (task 10-c, 2026-10-11): anchor-baseline = the fleet's conformance suite
+# for the canonical anchor protocol saos-git-custody-v1 (canonical sources:
+# steem@saos-cockpit mini-services/saos-engine/{anchor-now-t38.mjs,ci-act.mjs}).
+# This workflow runs the vector suite so the protocol cannot drift in silence.
+#
+# HONEST BILLING NOTE (measured org-wide since ~09-20): this is a PRIVATE repo
+# — Actions minutes are billing-walled and runs die at setup (0 steps, ~2s,
+# empty logs). That is the owner's billing decision, not a code failure.
+# workflow_dispatch only: no schedule to burn nothing, ready the minute
+# minutes return. Locally the suite needs nothing but node ≥ 18:
+#   node conformance/selftest.mjs
+
+name: conformance-selftest
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: conformance-selftest
+  cancel-in-progress: false
+
+jobs:
+  suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run the conformance suite (fail = named, fail-honest)
+        run: node conformance/selftest.mjs
+
+      - name: Commit the truth receipt
+        run: |
+          set -euo pipefail
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          mkdir -p agent
+          git pull --rebase origin main || true
+          printf '{\n "agent": "conformance-selftest",\n "generatedAt": "%s",\n "protocol": "saos-git-custody-v1",\n "suite": "conformance/vectors.json + validate.mjs + selftest.mjs",\n "verdict": "PASS"\n}\n' "$NOW" > agent/conformance-status.json
+          git config user.email "roshpinacare-sys@users.noreply.github.com"
+          git config user.name "conformance-suite[bot]"
+          git add agent/conformance-status.json
+          if git diff --cached --quiet; then echo "receipt unchanged"; else git commit -m "conformance-selftest: PASS at $NOW"; git push; fi
