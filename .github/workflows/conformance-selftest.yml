@@ -47,7 +47,7 @@ jobs:
           mkdir -p agent
           git pull --rebase origin main || true
           printf '{\n "agent": "conformance-selftest",\n "generatedAt": "%s",\n "protocol": "saos-git-custody-v1",\n "suite": "conformance/vectors.json + validate.mjs + selftest.mjs",\n "verdict": "PASS"\n}\n' "$NOW" > agent/conformance-status.json
-          git config user.email "roshpinacare-sys@users.noreply.github.com"
-          git config user.name "conformance-suite[bot]"
+          git config user.email "326012154+roshpinacare-sys@users.noreply.github.com"
+          git config user.name "roshpinacare-sys"
           git add agent/conformance-status.json
           if git diff --cached --quiet; then echo "receipt unchanged"; else git commit -m "conformance-selftest: PASS at $NOW"; git push; fi
