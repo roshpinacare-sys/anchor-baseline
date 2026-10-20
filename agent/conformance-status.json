@@ -1,0 +1,7 @@
+{
+ "agent": "conformance-selftest",
+ "generatedAt": "2026-10-20T07:43:25Z",
+ "protocol": "saos-git-custody-v1",
+ "suite": "conformance/vectors.json + validate.mjs + selftest.mjs",
+ "verdict": "PASS"
+}
