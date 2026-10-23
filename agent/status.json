@@ -1,6 +1,6 @@
 {
  "agent": "baseline-integrity",
- "generatedAt": "2026-10-23T16:12:18Z",
+ "generatedAt": "2026-10-23T16:31:31Z",
  "verdict": "PASS",
  "checks": {
   "historyFiles": 67,
